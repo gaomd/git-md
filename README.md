@@ -1,4 +1,4 @@
-git-md v0.1.0
+git-md v0.1.1
 =============
 
 A Markdown helper used directly inside Git.

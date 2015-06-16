@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-VERSION = "0.1.0"
+VERSION = "0.1.1"
 
 class GitMd
 
@@ -52,7 +52,7 @@ class GitMd
     system 'find * -type f -name "*.md"'
   end
 
-  def edit(path)
+  def edit(path = nil)
     if path.nil?
       puts 'Please specify the path to the file.'
       abort
