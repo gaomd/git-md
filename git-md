@@ -1,0 +1,66 @@
+#!/usr/bin/env ruby
+
+VERSION = "0.1.0"
+
+class GitMd
+
+  def initialize
+    command = ARGV[0]
+    arguments = ARGV.slice(1..-1)
+
+    if command.nil?
+      self.help
+    elsif self.respond_to?(command)
+      self.send(command, *arguments)
+    else
+      self.help
+    end
+  end
+
+  def help
+    help = <<-END.gsub(/^\s+\|/, '')
+      |
+      |git-md v#{VERSION}
+      |=============
+      |
+      |A Markdown helper used directly inside Git.
+      |
+      |COMMANDS
+      |--------
+      |
+      |    help            show the help
+      |    list            list files with .md suffix, recursively
+      |    edit <path>     edit file at the given path, using the \$EDITOR
+      |
+      |EXAMPLES
+      |--------
+      |
+      |    $ git md list
+      |    $ git md edit blog/hello-world.md
+      |
+      |INSTALLATION
+      |------------
+      |
+      |    Drop `git-md` executable to $PATH
+      |
+    END
+
+    puts help
+  end
+
+  def list
+    system 'find * -type f -name "*.md"'
+  end
+
+  def edit(path)
+    if path.nil?
+      puts 'Please specify the path to the file.'
+      abort
+    end
+
+    exec "\$EDITOR #{path}"
+  end
+
+end
+
+GitMd.new
